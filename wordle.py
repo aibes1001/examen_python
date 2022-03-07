@@ -1,4 +1,5 @@
 import random
+from time import sleep
 
 def choose_secret(filename):
     """Dado un nombre de fichero, esta función devuelve una palabra aleatoria de este fichero transformada a mayúsculas.
@@ -78,22 +79,44 @@ def choose_secret_advanced(filename):
     file = open(filename, mode="rt", encoding="utf-8")
 
     palabras = file.readlines()
-    palabra = palabras[random.randint(0,len(palabras)-1)].upper()
-    print(palabra)
-    return palabra
+    
+    palabras_sin_acento = []
+
+    for palabra in palabras:
+        if palabra.count("á") == 0 and palabra.count("é") == 0 and palabra.count("í") == 0 and palabra.count("ó") == 0 and palabra.count("ú") == 0:
+          palabras_sin_acento.append(palabra)
+    
+    selected = []
+
+    while len(selected) < 15:
+      p = palabras_sin_acento[random.randint(0,len(palabras_sin_acento)-1)]
+      if selected.count(p) == 0:
+        selected.append(p)
+
+    secret = selected[random.randint(0,len(selected)-1)].upper()
+    return secret, selected
 
  
-def check_valid_word():
+def check_valid_word(selected):
     """Dada una lista de palabras, esta función pregunta al usuario que introduzca una palabra hasta que introduzca una que esté en la lista. Esta palabra es la que devolverá la función.
     Args:
       selected: Lista de palabras.
     Returns:
       word: Palabra introducida por el usuario que está en la lista.
     """
+    print(selected)
+    word = input("Introduce una nueva palabra: ")
+
+    while selected.count(word) != 1:
+
+      word = input("Introduce una nueva palabra: ")
+
+    return word
+
 
 if __name__ == "__main__":
-    secret=choose_secret("palabras_reduced.txt")
-    print("Palabra a adivinar: "+secret)#Debug: esto es para que sepas la palabra que debes adivinar
+    secret, selected =choose_secret_advanced("palabras_extended.txt")
+    """print("Palabra a adivinar: "+secret)#Debug: esto es para que sepas la palabra que debes adivinar
     for repeticiones in range(0,6):
         word = input("Introduce una nueva palabra: ")
         same_position, same_letter = compare_words(word, secret)
@@ -105,3 +128,8 @@ if __name__ == "__main__":
             print("HAS GANADO!!")
             exit()
     print("LO SIENTO, NO LA HAS ADIVINIDADO. LA PALABRA ERA "+secret)   
+    """
+    print(secret)
+    print(selected)
+    word = check_valid_word(selected)
+    #print("FINAL " + word)
