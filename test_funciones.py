@@ -30,6 +30,7 @@ def test_add_client():
     #comprobamos que hay 3 clientes después de añadir 2 más, y que los contenidos son los esperados
     add_client(clients_list,'12343555F','Jacinto','Moraira','+34616124513','jacin@gmail.com')
     add_client(clients_list,'20555415M','Jaume','Gandia','+34652226215','soc_choume@gmail.com')
+    
     assert len(clients_list) == 3
     assert clients_list['12343555F'] == {'name': 'Jacinto', 'address': 'Moraira', 'phone': '+34616124513', 'email': 'jacin@gmail.com'}
     assert clients_list['20555415M'] == {'name': 'Jaume', 'address': 'Gandia', 'phone': '+34652226215', 'email': 'soc_choume@gmail.com'}

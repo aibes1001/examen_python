@@ -11,9 +11,12 @@ def choose_secret(filename):
     file = open(filename, mode="rt", encoding="utf-8")
 
     palabras = file.readlines()
-    palabra = palabras[random.randint(0,len(palabras)-1)].upper()
-    print(palabra)
-    return palabra
+    if len(palabras) > 0:
+      palabra = palabras[random.randint(0,len(palabras)-1)].upper()
+      print(palabra)
+      return palabra
+    else:
+      raise ValueError("Fichero vacio")
 
     
 def compare_words(word, secret):
@@ -25,23 +28,24 @@ def compare_words(word, secret):
       same_position: Lista de posiciones de word cuyas letras coinciden en la misma posición en secret. En el caso anterior: [0]
       same_letter: Lista de posiciones de word cuyas letras están en secret pero en posiciones distintas. En el caso anterior: [1,2]
     """
-    print("LONGITUDS")
-    print(len(word))
-    print(len(secret))
-    same_position = []
-    same_letter = []
+    if len(word) == len(secret):
+      
+      same_position = []
+      same_letter = []
 
-    for i in range(len(word)):
-      if word[i] == secret[i]:
-        same_position.append(i)
-    
-    for i in range(len(word)):
-      for j in range(len(secret)):
-        if word[i] == secret[j] and same_position.count(i) == 0:
-          same_letter.append(i)
-    
+      for i in range(len(word)):
+        if word[i] == secret[i]:
+          same_position.append(i)
+      
+      for i in range(len(word)):
+        for j in range(len(secret)):
+          if word[i] == secret[j] and same_position.count(i) == 0:
+            same_letter.append(i)
+      
 
-    return same_position, same_letter
+      return same_position, same_letter
+    else:
+      raise ValueError("La longitud de las palabras no es la misma")
 
 
 def print_word(word, same_position, same_letter):
@@ -53,17 +57,23 @@ def print_word(word, same_position, same_letter):
     Returns:
       transformed: La palabra aplicando las transformaciones. En el caso anterior: "Cam--"
     """
-    transformed = ""
-    
-    for i in range(len(word)):
-      if same_position.count(i) == 1:
-        transformed += word[i].upper()
-      elif same_letter.count(i) == 1:
-        transformed += word[i].lower()
-      else:
-        transformed += "-"
-    
-    return transformed
+    if type(same_position) == list and type(same_letter) == list:
+      transformed = ""
+      
+      for i in range(len(word)):
+        if same_position[i] < 0 or same_position >= len(word) or same_letter[i] < 0 or same_letter >= len(word):
+          raise ValueError("Error en el valor de la lista")
+        else:
+          if same_position.count(i) == 1:
+            transformed += word[i].upper()
+          elif same_letter.count(i) == 1:
+            transformed += word[i].lower()
+          else:
+            transformed += "-"
+      
+      return transformed
+    else:
+      raise ValueError("No son listas")
 
 
     

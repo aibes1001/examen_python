@@ -30,13 +30,17 @@ def add_client(clients_list,nif,name,address,phone,email):
       phone
       email
     """
+    #L'error es trobaja que el test esperava que retornara un diccionari com a valor amb el nom, adreça  ..., pero conforme estava configurada la funció
+    # introduïa un diccionari amb la clau del DNI (de nou) i dins el diccionari amb nom, adreça ....
+    #S'ha corregit deixant només la clau amb el diccionari nom, adreça...
     clients_list[nif] = {
-        nif: {'name': name,
-              'address': address,
-              'phone': phone,
-              'email': email
-        }
+        'name': name,
+        'address': address,
+        'phone': phone,
+        'email': email
+        
     }
+    print(clients_list)
 
 def repartir_cartas(cartas_iniciales,repeticiones):
     """Dada una baraja de cartas iniciales y un número de repeticiones, esta función selecciona 5 cartas aleatorias de esta baraja y las mete en un diccionario llamado combinaciones. El proceso se repite tantas veces como repeticiones se indiquen.
