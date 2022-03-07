@@ -105,17 +105,24 @@ def check_valid_word(selected):
       word: Palabra introducida por el usuario que está en la lista.
     """
     print(selected)
-    word = input("Introduce una nueva palabra: ")
+    word = ""
 
-    while selected.count(word) != 1:
-
+    esta = False
+    while esta == False:
       word = input("Introduce una nueva palabra: ")
+
+      for i in selected:
+        if selected == word:
+          esta = True
+          break
 
     return word
 
 
 if __name__ == "__main__":
     secret, selected =choose_secret_advanced("palabras_extended.txt")
+    word = check_valid_word(selected)
+    print("FINAL " + word)
     """print("Palabra a adivinar: "+secret)#Debug: esto es para que sepas la palabra que debes adivinar
     for repeticiones in range(0,6):
         word = input("Introduce una nueva palabra: ")
@@ -129,7 +136,4 @@ if __name__ == "__main__":
             exit()
     print("LO SIENTO, NO LA HAS ADIVINIDADO. LA PALABRA ERA "+secret)   
     """
-    print(secret)
-    print(selected)
-    word = check_valid_word(selected)
-    #print("FINAL " + word)
+    
